@@ -8,22 +8,23 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-@Repository
-public class ClienteDaoImpl implements ClienteDao {
+// @Repository
+public class ClienteDaoImpl {
 
+    // public class ClienteDaoImpl implements ClienteDao , borramos esto para usar el CRUDRepository
+
+    /*
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Transactional(readOnly = true)
     @Override
     public List<Cliente> findAll() {
         return entityManager.createQuery("from Cliente").getResultList();
     }
 
-    @Transactional
     @Override
     public void save(Cliente cliente){
-        System.out.println("-------------- ID -" + cliente.getId()+"-----------------------");
+        System.out.println(cliente.toString());
         if (cliente.getId() == null){
              entityManager.persist(cliente);
         } else{
@@ -44,5 +45,15 @@ public class ClienteDaoImpl implements ClienteDao {
         return null;
     }
 
+    @Override
+    public void delete(Long id) {
+        if (id != null && id >= 0){
+            Cliente cliente = this.findOne(id);
+            if (cliente != null){
+                entityManager.remove(cliente);
+            }
+        }
+    }
+*/
 
 }

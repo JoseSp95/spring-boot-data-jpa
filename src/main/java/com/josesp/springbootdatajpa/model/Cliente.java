@@ -1,6 +1,5 @@
 package com.josesp.springbootdatajpa.model;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -16,8 +15,8 @@ public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty
@@ -43,8 +42,6 @@ public class Cliente implements Serializable {
         createAt = new Date();
     }
     */
-
-    public Cliente(){}
 
     public Long getId(){
         return id;
@@ -81,4 +78,16 @@ public class Cliente implements Serializable {
     public void setCreateAt(Date createAt) {
         this.createAt = createAt;
     }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", email='" + email + '\'' +
+                ", createAt=" + createAt +
+                '}';
+    }
+
 }

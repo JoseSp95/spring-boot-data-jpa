@@ -17,8 +17,8 @@
             </div>
 
             <div class="col-sm-6 offset-sm-3">
-                <form th:action="@{/form}" th:object="${cliente}" method="post">
-                    <input type="hidden" th:field="*{id}">
+                <form th:action="@{/form}" th:object="${cliente}" th:method="post">
+                    <!-- input type="hidden" th:field="*{id}" -->
                     <div class="form-group">
                         <label for="name">Nombre</label>
                         <input type="text" class="form-control" id="name"

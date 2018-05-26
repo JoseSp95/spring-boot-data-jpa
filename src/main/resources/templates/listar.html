@@ -21,6 +21,7 @@
                         <th>email</th>
                         <th>fecha</th>
                         <th>Editar</th>
+                        <th>Eliminar</th>
                     </tr>
                     </thead>
 
@@ -34,6 +35,12 @@
                         <td>
                             <a class="btn btn-primary" th:href="@{/edit/{id}(id=${cliente.id})}">
                                 Edit
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-secondary" th:href="@{/delete/{id}(id = ${cliente.id})}"
+                               onclick="return confirm('Esta Seguro?');">
+                                Delete
                             </a>
                         </td>
                     </tr>

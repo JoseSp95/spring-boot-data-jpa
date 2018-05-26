@@ -2,27 +2,29 @@ package com.josesp.springbootdatajpa.controller;
 
 import com.josesp.springbootdatajpa.dao.ClienteDao;
 import com.josesp.springbootdatajpa.model.Cliente;
+import com.josesp.springbootdatajpa.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
 import java.util.Map;
 
+
 @Controller
+@SessionAttributes(value = "cliente")
 public class ClienteController {
 
     @Autowired
-    private ClienteDao clienteDao;
+    private ClienteService clienteService;
 
     @RequestMapping(value = "/listar", method = RequestMethod.GET)
     public String listar(Model model){
         model.addAttribute("titulo", "Listado de Clientes");
-        model.addAttribute("clientes", clienteDao.findAll());
+        model.addAttribute("clientes", clienteService.findAll());
         return "listar";
     }
 
@@ -35,12 +37,13 @@ public class ClienteController {
     }
 
     @RequestMapping(value = "/form", method = RequestMethod.POST)
-    public String crear(@Valid Cliente cliente, BindingResult result, Model model){
+    public String crear(@Valid Cliente cliente, BindingResult result, Model model, SessionStatus status){
         model.addAttribute("titulo", "Formulario de Clientes");
         if (result.hasErrors()){
             return "form";
         }
-        clienteDao.save(cliente);
+        clienteService.save(cliente);
+        status.setComplete();
         return "redirect:listar";
     }
 
@@ -48,8 +51,8 @@ public class ClienteController {
     public String edit(@PathVariable("id") Long id, Map<String, Object> model){
         Cliente cliente;
         if (id != null && id >= 0){
-            cliente = clienteDao.findOne(id);
-            System.out.println("---->" + cliente.getId() + "-- " + cliente.getNombre());
+            cliente = clienteService.findOne(id);
+            System.out.println(cliente.toString());
             model.put("cliente", cliente);
             return "form";
         } else {
@@ -57,5 +60,11 @@ public class ClienteController {
         }
     }
 
-
+    @RequestMapping(value = "/delete/{id}")
+    public String delete(@PathVariable("id") Long id){
+        if (id != null && id >= 0){
+            clienteService.delete(id);
+        }
+        return "redirect:/listar";
+    }
 }
